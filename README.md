@@ -2,7 +2,9 @@
 
 Shows your top 4 albums from the last month in your Discord profile
 
-[https://chloecinders.com/blog/discord-widgets#creating-your-widget](Discord custom widget guide)
+![Preview](assets/preview.webp)
+
+[How to make a custom discord widget](https://chloecinders.com/blog/discord-widgets#creating-your-widget)
 
 For reference, the widget payload is in `widget_patch_payload.json`
 
