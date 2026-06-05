@@ -29,8 +29,6 @@ export async function update(socialData: SocialData) {
   );
   const text = await resp.text();
   if (!resp.ok) {
-    throw new Error(`Failed to update social data: ${resp.status}\n${text}`);
+    throw new Error(`${resp.status}\n${text}`);
   }
-  console.log("Successfully updated social data");
-  console.log(text);
 }

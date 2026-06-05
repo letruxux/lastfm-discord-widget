@@ -56,9 +56,13 @@ async function buildSocialData(): Promise<SocialData> {
   };
 }
 
-setInterval(
-  () => {
-    buildSocialData().then(update).catch(console.error);
-  },
-  Number.parseInt(env.UPDATE_EVERY!) * 60 * 1000,
-);
+function run() {
+  buildSocialData()
+    .then(update)
+    .then(() => console.log("Updated social info successfully!"))
+    .catch((e) => console.error("Failed to update social info:", e))
+    .finally(() => console.log("Retrying in", env.UPDATE_EVERY!, "minutes..."));
+}
+
+run();
+setInterval(run, Number.parseInt(env.UPDATE_EVERY!) * 60 * 1000);
