@@ -1,4 +1,5 @@
 import { update, type SocialData } from "./discord";
+import { env } from "./env";
 import { getTop4AlbumsLastMonth, getUserInfo } from "./lastfm";
 
 async function buildSocialData(): Promise<SocialData> {
@@ -55,4 +56,9 @@ async function buildSocialData(): Promise<SocialData> {
   };
 }
 
-buildSocialData().then(update);
+setInterval(
+  () => {
+    buildSocialData().then(update).catch(console.error);
+  },
+  Number.parseInt(env.UPDATE_EVERY!) * 60 * 1000,
+);

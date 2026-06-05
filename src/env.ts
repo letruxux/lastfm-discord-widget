@@ -6,6 +6,7 @@ function makeEnv() {
     LASTFM_KEY: process.env.LASTFM_KEY,
     LASTFM_USERNAME: process.env.LASTFM_USERNAME,
     LASTFM_PERIOD: process.env.LASTFM_PERIOD,
+    UPDATE_EVERY: process.env.UPDATE_EVERY,
   };
 
   for (const key in env) {
