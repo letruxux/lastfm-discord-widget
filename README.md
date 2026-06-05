@@ -1,15 +1,9 @@
-# lastfm-ds-widget
+# last.fm + Discord Widget
 
-To install dependencies:
+Shows your top 4 albums from the last month in your Discord profile
 
-```bash
-bun install
-```
+[https://chloecinders.com/blog/discord-widgets#creating-your-widget](Discord custom widget guide)
 
-To run:
+For reference, the widget payload is in `widget_patch_payload.json`
 
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.3.14. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+If you manage to set this up, you can run it by filling in the `.env` file and running `bun .`
