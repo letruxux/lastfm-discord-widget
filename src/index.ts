@@ -2,20 +2,19 @@ import { update, type SocialData } from "./discord";
 import { env } from "./env";
 import { getTop4AlbumsLastMonth, getUserInfo } from "./lastfm";
 
-async function buildSocialData(): Promise<SocialData> {
-  const [top4Albums, userInfo] = await Promise.all([
-    getTop4AlbumsLastMonth(),
-    getUserInfo(),
+async function buildSocialData(lastfmUsername: string): Promise<SocialData> {
+  const [albums, userInfo] = await Promise.all([
+    getTop4AlbumsLastMonth(lastfmUsername),
+    getUserInfo(lastfmUsername),
   ]);
 
-  const albumsData = top4Albums
+  const albumsData = albums
+    .slice(0, 4)
     .map((album, i) => [
       {
         type: 3,
         name: `image${i + 1}`,
-        value: {
-          url: album.image,
-        },
+        value: { url: album.image },
       },
       {
         type: 1,
@@ -37,9 +36,7 @@ async function buildSocialData(): Promise<SocialData> {
         {
           type: 3,
           name: "lastfmlogo",
-          value: {
-            url: userInfo.image,
-          },
+          value: { url: userInfo.image },
         },
         {
           type: 1,
@@ -56,13 +53,23 @@ async function buildSocialData(): Promise<SocialData> {
   };
 }
 
-function run() {
-  buildSocialData()
-    .then(update)
-    .then(() => console.log("Updated social info successfully!"))
-    .catch((e) => console.error("Failed to update social info:", e))
-    .finally(() => console.log("Retrying in", env.UPDATE_EVERY!, "minutes..."));
+async function run() {
+  const results = await Promise.allSettled(
+    env.USERS.map(async (user) => {
+      const data = await buildSocialData(user.lastfmUsername);
+      await update(data, user.discordId);
+      console.log(`Updated widget for ${user.lastfmUsername} (${user.discordId})`);
+    }),
+  );
+
+  for (const result of results) {
+    if (result.status === "rejected") {
+      console.error("Failed to update a user:", result.reason);
+    }
+  }
+
+  console.log(`Done. Refreshing in ${env.UPDATE_EVERY} minutes...`);
 }
 
 run();
-setInterval(run, Number.parseInt(env.UPDATE_EVERY!) * 60 * 1000);
+setInterval(run, Number.parseInt(env.UPDATE_EVERY) * 60 * 1000);

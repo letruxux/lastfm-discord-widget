@@ -14,9 +14,9 @@ export interface SocialData {
   };
 }
 
-export async function update(socialData: SocialData) {
+export async function update(socialData: SocialData, userId: string) {
   const resp = await fetch(
-    `https://discord.com/api/v9/applications/${env.APP_ID}/users/${env.USER_ID}/identities/0/profile`,
+    `https://discord.com/api/v9/applications/${env.APP_ID}/users/${userId}/identities/0/profile`,
     {
       method: "PATCH",
       headers: {

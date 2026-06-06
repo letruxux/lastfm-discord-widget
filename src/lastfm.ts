@@ -1,8 +1,8 @@
 import { env } from "./env";
 
-export async function getTop4AlbumsLastMonth() {
+export async function getTop4AlbumsLastMonth(username: string) {
   const resp = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${env.LASTFM_USERNAME}&api_key=${env.LASTFM_KEY}&format=json&limit=4&period=7day`,
+    `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${env.LASTFM_KEY}&format=json&limit=4&period=${env.LASTFM_PERIOD}`,
   );
 
   const data = (await resp.json()) as any;
@@ -22,9 +22,9 @@ export async function getTop4AlbumsLastMonth() {
   }[];
 }
 
-export async function getUserInfo() {
+export async function getUserInfo(username: string) {
   const resp = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${env.LASTFM_USERNAME}&api_key=${env.LASTFM_KEY}&format=json`,
+    `https://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${username}&api_key=${env.LASTFM_KEY}&format=json`,
   );
   const data = (await resp.json()) as any;
   return {
