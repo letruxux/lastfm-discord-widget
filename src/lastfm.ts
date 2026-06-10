@@ -1,8 +1,8 @@
 import { env } from "./env";
 
-export async function getTop4AlbumsLastMonth(username: string) {
+export async function getTopAlbums(username: string, period: string) {
   const resp = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${env.LASTFM_KEY}&format=json&limit=4&period=${env.LASTFM_PERIOD}`,
+    `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${env.LASTFM_KEY}&format=json&limit=4&period=${period}`,
   );
 
   const data = (await resp.json()) as any;

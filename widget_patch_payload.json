@@ -128,9 +128,9 @@
         "subtitle_3": {
           "fields": {
             "text": {
-              "value_type": "custom_string",
+              "value_type": "data",
               "presentation_type": "text",
-              "value": "Last month's top albums"
+              "value": "period"
             }
           }
         },

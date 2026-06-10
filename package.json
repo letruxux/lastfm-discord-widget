@@ -3,6 +3,9 @@
   "module": "src/index.ts",
   "type": "module",
   "private": true,
+  "dependencies": {
+    "discord.js": "^14.26.4"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -10,6 +13,7 @@
     "typescript": "^5"
   },
   "scripts": {
-    "start": "bun run ."
+    "start": "bun run .",
+    "dev": "bun run --watch ."
   }
 }
