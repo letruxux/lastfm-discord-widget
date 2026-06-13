@@ -1,3 +1,4 @@
+import { absolutelyGetAlbumArt } from "./album-art";
 import { env } from "./env";
 
 export async function getTopAlbums(username: string, period: string) {
@@ -11,10 +12,12 @@ export async function getTopAlbums(username: string, period: string) {
     ? data.topalbums.album
     : [data.topalbums.album];
 
-  return albums.map((album: any) => ({
+  return albums.map(async (album: any) => ({
     name: `${album.artist.name} - ${album.name}`,
     description: `${Number.parseInt(album.playcount).toLocaleString()} plays`,
-    image: album.image.at(-1)["#text"] || env.FALLBACK_ALBUM_IMAGE,
+    image:
+      album.image.at(-1)["#text"] ||
+      (await absolutelyGetAlbumArt(album.name, album.artist.name)),
   })) as {
     name: string;
     description: string;
