@@ -12,17 +12,19 @@ export async function getTopAlbums(username: string, period: string) {
     ? data.topalbums.album
     : [data.topalbums.album];
 
-  return albums.map(async (album: any) => ({
-    name: `${album.artist.name} - ${album.name}`,
-    description: `${Number.parseInt(album.playcount).toLocaleString()} plays`,
-    image:
-      album.image.at(-1)["#text"] ||
-      (await absolutelyGetAlbumArt(album.name, album.artist.name)),
-  })) as {
-    name: string;
-    description: string;
-    image: string;
-  }[];
+  return await Promise.all(
+    albums.map(async (album: any) => ({
+      name: `${album.artist.name} - ${album.name}`,
+      description: `${Number.parseInt(album.playcount).toLocaleString()} plays`,
+      image:
+        album.image.at(-1)["#text"] ||
+        (await absolutelyGetAlbumArt(album.name, album.artist.name)),
+    })) as {
+      name: string;
+      description: string;
+      image: string;
+    }[],
+  );
 }
 
 export async function getUserInfo(username: string) {
