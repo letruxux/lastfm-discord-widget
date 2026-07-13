@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
 export interface UserConfig {
@@ -7,7 +7,7 @@ export interface UserConfig {
   period: string;
 }
 
-const CONFIG_PATH = join(import.meta.dir, "..", "data","config.json");
+const CONFIG_PATH = join(import.meta.dir, "..", "data", "config.json");
 
 export function loadConfigs(): UserConfig[] {
   if (!existsSync(CONFIG_PATH)) return [];
@@ -15,5 +15,6 @@ export function loadConfigs(): UserConfig[] {
 }
 
 export function saveConfigs(configs: UserConfig[]): void {
+  mkdirSync(join(import.meta.dir, "..", "data"), { recursive: true });
   writeFileSync(CONFIG_PATH, JSON.stringify(configs, null, 2));
 }
