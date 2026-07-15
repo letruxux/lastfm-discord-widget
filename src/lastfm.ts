@@ -1,6 +1,13 @@
 import { absolutelyGetAlbumArt } from "./album-art";
 import { env } from "./env";
 
+function maxLength(str: string, max: number) {
+  if (str.length > max) {
+    return str.slice(0, max - 3) + "...";
+  }
+  return str;
+}
+
 export async function getTopAlbums(username: string, period: string) {
   const resp = await fetch(
     `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${env.LASTFM_KEY}&format=json&limit=4&period=${period}`,
@@ -14,7 +21,7 @@ export async function getTopAlbums(username: string, period: string) {
 
   return await Promise.all(
     albums.map(async (album: any) => ({
-      name: `${album.artist.name} - ${album.name}`,
+      name: `${maxLength(album.artist.name, 15)} - ${album.name}`,
       description: `${Number.parseInt(album.playcount).toLocaleString()} plays`,
       image:
         album.image.at(-1)["#text"] ||

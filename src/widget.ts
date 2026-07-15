@@ -20,7 +20,10 @@ const periodLabels: Record<string, string> = {
   "12month": "Last year's top albums",
 };
 
-export async function buildSocialData(lastfmUsername: string, period: string): Promise<SocialData> {
+export async function buildSocialData(
+  lastfmUsername: string,
+  period: string,
+): Promise<SocialData> {
   const [albums, userInfo] = await Promise.all([
     getTopAlbums(lastfmUsername, period),
     getUserInfo(lastfmUsername),
@@ -41,7 +44,11 @@ export async function buildSocialData(lastfmUsername: string, period: string): P
         ...albumsData,
         { type: 3, name: "lastfmlogo", value: { url: userInfo.image } },
         { type: 1, name: "lastfmusername", value: userInfo.username },
-        { type: 1, name: "scrobbles", value: `${userInfo.playcount.toLocaleString()} scrobbles` },
+        {
+          type: 1,
+          name: "scrobbles",
+          value: `${userInfo.playcount.toLocaleString()} scrobbles`,
+        },
         { type: 1, name: "period", value: periodLabels[period] || "Top albums" },
       ],
     },
